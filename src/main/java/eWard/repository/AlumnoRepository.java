@@ -1,11 +1,30 @@
 package eWard.repository;
 
 
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.Optional;
 
-@Transactional
-@Component("alumnoMag")
-public class AlumnoRepository {
+import eWard.entity.Alumno;
+import eWard.entity.Curso;
+import eWard.entity.Rol;
+import eWard.entity.Usuario;
+
+public interface AlumnoRepository<T> {
+	
+	List<Alumno> findAll();
+	
+	Alumno findByDni(Long dni);
+	
+	Alumno findByUsuario(Usuario usuario);
+	
+	Optional<Alumno> findByNombreAndApellidos(String nombre, String apellidos);
+	
+	List<Alumno> findByCurso(Curso curso);
+	
+	List<Alumno> findByRol(Rol rol);
+	
+	void deleteByDni(Long dni);
+	
+	Alumno saveOrUpdate(Alumno alumno);
 
 }
