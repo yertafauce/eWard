@@ -13,6 +13,7 @@ public class EWardApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EWardApplication.class, args);
 		log.info("hola");
+		log.info("jelouder");
 	}
 
 }
