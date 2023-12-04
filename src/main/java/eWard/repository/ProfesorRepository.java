@@ -13,6 +13,6 @@ public interface ProfesorRepository<T> {
 	
 	public Optional<Profesor> findByNombreAndApellidos(String nombre, String apellidos);
 	
-	
+	public
 	
 }
