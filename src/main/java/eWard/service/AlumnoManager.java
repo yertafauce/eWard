@@ -57,7 +57,7 @@ public class AlumnoManager {
 		
 	}
 	
-	public void deleteByDni(Alumno alumno) {
+	public void delete(Alumno alumno) {
 		
 		alumnoRepository.deleteByDni(alumno.getDni());
 		

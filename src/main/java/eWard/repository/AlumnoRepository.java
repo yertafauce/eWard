@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import eWard.entity.Alumno;
-import eWard.entity.Curso;
-import eWard.entity.Rol;
-import eWard.entity.Usuario;
 
 public interface AlumnoRepository<T> {
 	
