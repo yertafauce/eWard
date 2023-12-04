@@ -15,13 +15,13 @@ public interface AlumnoRepository<T> {
 	
 	Alumno findByDni(Long dni);
 	
-	Alumno findByUsuario(Usuario usuario);
+	Alumno findByUsuario(Long idUsuario);
 	
 	Optional<Alumno> findByNombreAndApellidos(String nombre, String apellidos);
 	
-	List<Alumno> findByCurso(Curso curso);
+	List<Alumno> findByCurso(Long idCurso);
 	
-	List<Alumno> findByRol(Rol rol);
+	List<Alumno> findByRol(Long idRol);
 	
 	void deleteByDni(Long dni);
 	

@@ -41,19 +41,32 @@ public class AlumnoManager {
 	
 	public Alumno getByUsuario(Usuario usuario) {
 		
-		return alumnoRepository.findByUsuario(usuario);
+		return alumnoRepository.findByUsuario(usuario.getId());
 		
 	}
 	
 	public List<Alumno> getByCurso(Curso curso) {
 		
-		return alumnoRepository.findByCurso(curso);
+		return alumnoRepository.findByCurso(curso.getId());
 		
 	}
 	
 	public List<Alumno> getByRol(Rol rol) {
 		
-		return alumnoRepository.findByRol(rol);
+		return alumnoRepository.findByRol(rol.getId());
+		
+	}
+	
+	public void deleteByDni(Alumno alumno) {
+		
+		alumnoRepository.deleteByDni(alumno.getDni());
+		
+	}
+	
+	public Alumno saveOrUpdate(Alumno alumn) {
+		
+		Alumno alumno = alumnoRepository.saveOrUpdate(alumn);
+		return alumno;
 		
 	}
 
