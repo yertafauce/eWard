@@ -15,7 +15,18 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<zkspringboot.version>1.0.4</zkspringboot.version>
+		<zk.version>9.6.0</zk.version>
+		<orika.version>1.5.4</orika.version>
+		<zkspring.version>4.0.1</zkspring.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>ZK CE</id>
+			<name>ZK CE Repository</name>
+			<url>https://mavensync.zkoss.org/maven2</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -46,6 +57,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zkspringboot</groupId>
+			<artifactId>zkspringboot-starter</artifactId>
+			<version>${zkspringboot.version}</version>
+			<type>pom</type>
 		</dependency>
 	</dependencies>
 
