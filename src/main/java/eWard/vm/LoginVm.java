@@ -16,7 +16,7 @@ public class LoginVm {
 	@Init
 	public void init() {
 		
-		log.info("entramos en HelloVm");
+		log.info("entramos en LoginVm");
 		
 	}
 

@@ -13,7 +13,7 @@ public class UserController {
 	@GetMapping("/hello")
 	public String hello(HttpServletRequest request) {
 
-		return "login";
+		return "log";
 	    
 	}
 
