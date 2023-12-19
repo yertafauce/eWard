@@ -32,7 +32,7 @@ public class ConexionMain {
 				ResultSet rs = stmt.executeQuery();
 				
 				while (rs.next())
-					System.out.println (rs.getString("name"));
+					System.out.println (rs.getString("nombre"));
 			} catch (SQLException sqle) { 
 				System.out.println("Error en la ejecución:" 
 				+ sqle.getErrorCode() + " " + sqle.getMessage());    

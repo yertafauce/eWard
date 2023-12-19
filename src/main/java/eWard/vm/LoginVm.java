@@ -12,12 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 @VariableResolver(DelegatingVariableResolver.class)
 public class LoginVm {
 	
-	
 	@Init
 	public void init() {
 		
 		log.info("entramos en LoginVm");
 		
 	}
-
 }

@@ -1,8 +1,10 @@
+
 <?page id="hello" title="${labels.label.title}" contentType="text/html;charset=UTF-8"?>
 
-
 <zk>
+
     <window title="Hello ZK - Spring Boot!" border="normal">
         You are using ZK version <label value="${session.webApp.version}"/>
     </window>
+    
 </zk>
