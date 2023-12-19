@@ -27,7 +27,7 @@ public class WebSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
                 http
                         .authorizeHttpRequests(auth ->
                                 auth
-                                        .requestMatchers("/public/**").permitAll()
+                                        .requestMatchers("/","/hello","/logout").permitAll()
                                         .requestMatchers("/admin/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                         )
@@ -35,7 +35,7 @@ public class WebSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
                                 .loginPage("/hello")  // Configura la página de inicio de sesión si es necesario
                                 .permitAll())
                         .logout(logout -> logout
-                                .logoutSuccessUrl("/login?logout")
+                                .logoutSuccessUrl("/hello?logout")
                                 .permitAll())
                         .httpBasic(withDefaults())
                         .csrf(csrf -> csrf.disable());

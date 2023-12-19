@@ -1,10 +1,31 @@
+<?xml version="1.0"?>
+<?meta http-equiv="Pragma" content="no-cache" ?>
+<?meta http-equiv="Expires" content="-1" ?>
+<?meta name="copyright" content="${labels.global.copy}" ?>
+<?meta name="author" content="Carlos Hernández de Galdo" ?>
 
 <?page id="hello" title="${labels.label.title}" contentType="text/html;charset=UTF-8"?>
 
-<zk>
+<zk xmlns:h="native">
 
-    <window title="Hello ZK - Spring Boot!" border="normal">
-        You are using ZK version <label value="${session.webApp.version}"/>
-    </window>
+	<div class = "login" vflex="true" viewModel="@id('vm') @init('eWard.vm.LoginVm')">
+   
+		<hlayout forward="onOK=btn.onClick">
+		
+			<h:form action="/eWard/login" method="POST" id="formLogin">
+				<hbox pack="center" align="center" width="100%" height="100%">
+					<vbox hflex="min" align="center">
+						<inputgroup>
+							<label sclass="fa fa-user fa-lg azul"
+								width="25px" />
+							<textbox id="username" placeholder="Usuario"
+								tabindex="0" constraint="no empty" class="form-control input-lg"
+								name="username" value="@save(vm.userLogin.nombre)" />
+						</inputgroup>
+						
+		
+		</hlayout>
+   
+	</div>
     
 </zk>
