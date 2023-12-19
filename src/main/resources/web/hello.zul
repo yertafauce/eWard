@@ -22,7 +22,9 @@
 								tabindex="0" constraint="no empty" class="form-control input-lg"
 								name="username" value="@save(vm.userLogin.nombre)" />
 						</inputgroup>
-						
+					</vbox>
+				</hbox>
+			</h:form>
 		
 		</hlayout>
    

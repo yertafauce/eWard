@@ -11,9 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	
 	@GetMapping("/login")
-	public String hello(HttpServletRequest request) {
+	public String login(HttpServletRequest request) {
 
-		return "hello";
+		return "login";
 	    
 	}
 }
