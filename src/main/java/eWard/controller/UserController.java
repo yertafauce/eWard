@@ -13,7 +13,8 @@ public class UserController {
 	@GetMapping("/login")
 	public String index(HttpServletRequest request) {
 
-		return "index";
+		
+		return "error";
 	    
 	}
 }
