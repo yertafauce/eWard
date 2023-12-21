@@ -1,97 +1,92 @@
 package eWard.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
-public class WebSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-    private static final String ZUL_FILES = "/zkau/web/**/**/*.zul";
+@EnableMethodSecurity
+public class WebSecurityConfig {
+	
+	 	@Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	    }
+	
+		@Bean
+		public UserDetailsService users() {
+			
+			UserDetails admin = User.withUsername("admin")
+					.password(passwordEncoder().encode("admin"))
+					.roles("Administrador", "Moderador", "Tutor", "Profesor", "Alumno").build();
+			UserDetails moderator = User.withUsername("moderador")
+					.password(passwordEncoder().encode("moderador"))
+					.roles("Moderador", "Tutor", "Profesor", "Alumno").build();
+			UserDetails tutor = User.withUsername("tutor")
+					.password(passwordEncoder().encode("tutor"))
+					.roles("Tutor", "Profesor").build();
+			UserDetails profesor = User.withUsername("profesor")
+					.password(passwordEncoder().encode("profesor"))
+					.roles("Profesor").build();
+			UserDetails alumno = User.withUsername("alumno")
+					.password(passwordEncoder().encode("alumno"))
+					.roles("Alumno").build();
+			
+			return new InMemoryUserDetailsManager(admin, moderator, tutor, profesor, alumno);
+			
+		}
 
-    private static final String[] ZK_RESOURCES = {
-            "/include/**",
-            "/css/**",
-            "/icons/**",
-            "/img/**",
-            "/js/**",
-            "/zkau/web/**/js/**",
-            "/zkau/web/**/css/**",
-            "/zkau/web/**/font/**",
-            "/zkau/web/**/img/**",
-            "/zkau/web/**/zul/img/**"
-    };
-    
-    
-    
-    
-    @Bean
-    public SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> securityConfigurerAdapter() {
-        return new SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
-    
-		    @Override
-			public void configure(HttpSecurity http) throws Exception {
+	    @Bean
+	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    	
+	        http
+	        		.csrf(csrf -> csrf.disable())
+	                .authorizeHttpRequests(auth ->
+                    {
+						try {
+							auth
+							        .requestMatchers("/", "/login")
+							        .permitAll()
+							        .and()
+							        .formLogin(login -> login
+							                .loginPage("/login")
+							                .defaultSuccessUrl("/")
+							                .permitAll())
+							        .logout(logout -> logout
+							                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+							                .logoutSuccessUrl("/")
+							                .invalidateHttpSession(true)
+							                .permitAll());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					});
 
-		    	http.csrf().disable();
-		    	
-		    	http.authorizeRequests()
-		        .anyRequest().permitAll()
-		       // .antMatchers(HttpMethod.GET, ZUL_FILES).denyAll()
-		        
-		        .requestMatchers("/","/login","/logout").permitAll()
-		       
-		       
-		      .and()
-		      //cuando logeamos si ha ido ok, pasamos el usuario a la session con customAuthenticationSuccessHandler
-		        .formLogin().loginPage("/login").permitAll()
-		        .defaultSuccessUrl("/menuzoomer")
-		        .failureUrl("/login?error=true")
-		        .usernameParameter("username")
-		        .passwordParameter("password")
-		        
-		        .and()  
-		        .logout().permitAll().logoutUrl("/logout").logoutSuccessUrl("/login");
-		        
-		        //control de sesiones y concurrencia de usuarios
-		    	http
-		        .sessionManagement()
-		       // .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-		       .invalidSessionUrl("/errorSession");
-		        //.invalidSessionUrl("/login")
-		       // .sessionRegistry(sessionRegistry)
-		        
-		    	//System.out.println(configMag.getConfig().getInt("config.sesionesMaximas"));
-		    }
-        };
-    }
-    
+	        return http.build();
+	    }
 
-    /*@Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
+	    @Bean
+	    public WebSecurityCustomizer webSecurityCustomizer() {
+	        return (web) -> web.ignoring().requestMatchers("/register");
+	    }
 
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-    }*/
-    
+	
+
 }
